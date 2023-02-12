@@ -1,0 +1,73 @@
+<div class="default mainBlock">
+    <form class="form" (ngSubmit)="submit()">
+
+        <div class="formLable">
+            <div id="figure"> 
+                <span>Напишите нам</span> 
+            </div>
+            <div id="figureBack"></div>
+        </div>
+
+        <fieldset class="inputGroup">
+            <div class="inputItem">
+                <label class="label">Ваше имя:</label>
+                <img class="inputImg" src="https://cdn-icons-png.flaticon.com/128/126/126486.png" *ngIf="!(message.contact.name.length>0)">
+                <input class="inputBlock" type="text" [(ngModel)]="message.contact!.name!" name="name" #name = "ngModel" required> 
+                
+                <div class="exceptionBlock" *ngIf="(name.invalid && name.touched) && name.errors?.['required']">
+                    Ничего не введено!
+                </div>
+            </div>
+
+            <div class="inputItem">
+                <label class="label">Ваш Email:</label>
+                <img class="inputImg" src="https://cdn-icons-png.flaticon.com/128/126/126516.png" *ngIf="!(message.contact.email.length>0)">
+                <input class="inputBlock" [email]="true" [(ngModel)]="message.contact!.email" name="email" #email = "ngModel"  required>
+
+                <div class="exceptionBlock" *ngIf="email.invalid && email.touched">
+                    <div *ngIf="email.errors?.['required']">Ничего не введено</div>
+                    <div *ngIf="email.errors?.['email']">Ошибка формата</div>
+                </div>
+            </div>            
+
+            <div class="inputItem">
+                <label class="label">Ваш телефон:</label>
+                <img class="inputImg" src="https://cdn-icons-png.flaticon.com/128/126/126509.png" *ngIf="!(message.contact.phone.length>0)">
+                <input class="inputBlock" 
+                    [(ngModel)]="message.contact.phone"
+                    name="phone"
+                    #phone = "ngModel"
+                    maxlength="13"
+                    minlength="11"
+                    (keydown)="changeNumberFieldKeyDown($event)"
+                    required
+                >
+                
+                <div class="exceptionBlock" *ngIf="phone.invalid && phone.touched">
+                    <div *ngIf="phone.errors?.['required']">Ничего не введено</div>
+                    <div *ngIf="phone.errors?.['minlength'] || phone.errors?.['maxlength']">Ошибка формата</div>
+                </div>
+            </div>
+
+            <div class="inputItem">
+                <label class="label">Тема:</label>
+                <select class="themeBlock" [(ngModel)]="message.theme" name="themeSelect" >
+                    <option *ngFor="let th of themes" [ngValue]="th">{{th.title}}</option>
+                </select>
+            </div>
+
+            <div class="inputItem">
+                <label class="label" for="message" style="line-height:normal;">Ваше сообщение:</label>
+                <textarea class="inputBlock textAreaBlock" [(ngModel)]="message.content" #content = "ngModel" name="message" required></textarea>
+                <div class="exceptionBlock" *ngIf="content.invalid && content.touched" style="margin-top: -5px;">
+                    <div *ngIf="content.errors?.['required']">Ничего не введено</div>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="captcha">
+            <ngx-recaptcha2 #captchaElem [siteKey]="'6LfA5XQkAAAAAHGkfzgJz6P57X13hHHaVPIQTrb_'" (success)="humanTestSuccess()"></ngx-recaptcha2>
+        </div>
+        <button class="submitButton">Отправить</button>
+    </form>
+</div>
