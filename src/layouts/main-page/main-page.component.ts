@@ -1,8 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Output, ViewChild } from '@angular/core';
 import { Message } from 'src/models/Message';
 import { Theme } from 'src/models/Theme';
 import { DataService } from 'src/app/data.service';
 import { FormBuilder, NgModel, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { state } from '@angular/animations';
 
 @Component({
   selector: 'app-main-component',
@@ -13,13 +15,15 @@ export class MainPageComponent {
   themes: Theme[] = [];
   message = new Message();
   humanTestStat = false;
+  response?: Message;
+
 
   @ViewChild('name') private name?: NgModel;
   @ViewChild('email') private email?: NgModel;
   @ViewChild('phone') private phone?: NgModel;
   @ViewChild('content') private content?: NgModel;
-
-  constructor(private dataService: DataService, private formBuilder: FormBuilder){
+  
+  constructor(private dataService: DataService, private formBuilder: FormBuilder, private router:Router){
     this.dataService.getThemes().subscribe({next:(data) => {
       this.themes = data;
       if (this.themes.length){
@@ -42,7 +46,7 @@ export class MainPageComponent {
 
   submit() {
     if (this.humanTestStat && this.name?.valid && this.email?.valid && this.phone?.valid && this.content?.valid) {
-      this.dataService.createMessage(this.message).subscribe((response: any) => {console.log("response:", response)});
+      this.dataService.createMessage(this.message).subscribe((response:any)=>{this.response = response});
     }
     else{
       alert('Условия отправки не соблюдены.')

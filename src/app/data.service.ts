@@ -10,9 +10,8 @@ import { Observable } from 'rxjs';
 export class DataService{
     private host = "http://localhost:7247/api/DataSend/"
 
-
     constructor(private http: HttpClient) {}
- 
+
     createContact(contact: Contact) {
         return this.http.post(this.host + "contacts", contact);
     }

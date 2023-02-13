@@ -10,7 +10,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgxCaptchaModule } from "ngx-captcha"
 
 const appRoutes:Routes = [
-  {path:'', component:MainPageComponent}
+  {path:'', component:MainPageComponent},
 ]
 
 @NgModule({

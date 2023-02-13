@@ -1,4 +1,4 @@
-<div class="default mainBlock">
+<div class="default mainBlock" *ngIf="response==null">
     <form class="form" (ngSubmit)="submit()">
 
         <div class="formLable">
@@ -70,4 +70,12 @@
         </div>
         <button class="submitButton">Отправить</button>
     </form>
+</div>
+
+<div class="default" *ngIf="response != null">
+    <p>Ваше имя: <b>{{message.contact.name}}</b></p>  
+    <p>Ваш Email: <b>{{message.contact.email}}</b></p>   
+    <p>Ваш телефон: <b>{{message.contact.phone}}</b></p>
+    <p>Тема: <b>{{message.theme.title}}</b></p>
+    <p>Ваше сообщение: <b>{{message.content}}</b></p>
 </div>
